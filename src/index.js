@@ -11,24 +11,30 @@ import ProfileScreen from './screens/ProfileScreen';
 import OtherUserProfileScreen from './screens/OtherUserProfileScreen';
 import { Provider } from 'react-redux';
 import store from './store';
-import TestHome from './screens/testHome';
+import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
+import { HelmetProvider } from 'react-helmet-async';
 
 
 const root = document.getElementById('root');
 
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Router>
-        <Routes>
-          {/* <Route path="/" element={<TestHome />} /> */}
-          <Route path="/login" element={<LoginScreen />} />
-          <Route path="/register" element={<RegisterScreen />} />
-          <Route path="/profile" element={<ProfileScreen />} />
-          <Route path="/profile/:id" element={<OtherUserProfileScreen />} />
-        </Routes>
-      </Router>
-    </Provider>
+    <HelmetProvider>
+      <Provider store={store}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/register" element={<RegisterScreen />} />
+            <Route path="/profile" element={<ProfileScreen />} />
+            <Route path="/profile/:id" element={<OtherUserProfileScreen />} />
+            <Route path='/search/:keyword' element={<HomeScreen />} />
+            <Route path='/product/:id' element={<ProductScreen />} />
+          </Routes>
+        </Router>
+      </Provider>
+    </HelmetProvider>
   </React.StrictMode>
 );
 

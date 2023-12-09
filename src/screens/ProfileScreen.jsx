@@ -10,7 +10,7 @@ import Loader from '../components/Loader';
 import { useProfileMutation, useGetManagedUsersQuery, useDeleteUserMutation } from '../slices/usersApiSlice';
 import { useGetMyOrdersQuery, useDeleteOrderMutation } from '../slices/ordersApiSlice';
 import { setCredentials } from '../slices/authSlice';
-import { useGetMyProductsQuery, useDeleteProductMutation } from "../slices/productsApiSlice";
+import { useGetMyProductsQuery, useDeleteProductMutation, useCreateProductMutation, useUpdateProductMutation } from "../slices/productsApiSlice";
 
 const ProfileScreen = () => {
   const [username, setUsername] = useState('');
@@ -23,22 +23,29 @@ const ProfileScreen = () => {
   const [isAdmin, setIsAdmin] = useState(false); 
   const [admin, setAdmin] = useState(''); // everyone has a admin
 
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState(0);
+  const [countInStock, setCountInStock] = useState(0);
+  const [productId, setProductId] = useState('');
+
   const { userInfo } = useSelector((state) => state.auth);
 
-
-//   const { data: orders, isLoading, error } = useGetMyOrdersQuery();
+// Hook Initialization, identifying tags for the data
   const { data: orders, isLoading: isLoadingOrders, error: ordersError } = useGetMyOrdersQuery(userInfo);
   const { data: products, isLoading: isLoadingProducts, error: productsError } = useGetMyProductsQuery(userInfo._id);
   const { data: managedUsers, isLoading: isLoadingManagedUsers, error: managedUsersError } = useGetManagedUsersQuery(userInfo._id);
 
   const [deleteOrder, { isLoading: isDeletingOrder }] = useDeleteOrderMutation();
   const [deleteProduct, { isLoading: isDeletingProduct }] = useDeleteProductMutation();
+  const [createProduct, { isLoading: isCreatingProduct }] = useCreateProductMutation();
+  const [updateProduct, { isLoading: isUpdatingProduct }] = useUpdateProductMutation();
   const [deleteUser, { isLoading: isDeletingUser }] = useDeleteUserMutation();
-//   const [getMyProducts, {data: products, isLoading: isLoadingProducts, error: productsError }] = useGetMyProductsQuery();
-
-  
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
+
+
 
   const handleDeleteOrder = async (orderId) => {
     if (window.confirm('Are you sure you want to delete this order?')) {
@@ -62,6 +69,50 @@ const ProfileScreen = () => {
     }
   };
 
+  const handleCreateProduct = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    const productData = { title, image, description, price, countInStock, user: userInfo._id };
+    // Check for empty fields
+    if (!title || !image || !description || price === 0 || countInStock === 0) {
+      // Display an error message or set an error state
+      alert('Please fill in all the fields.');
+      console.log('Please fill in all the fields.');
+      return; // Stop the form submission
+    }
+    try {
+      await createProduct(productData).unwrap();
+      toast.success('Product created successfully');
+    } catch (err) {
+      toast.error('Error creating product: ' + err?.data?.message || err.error);
+    }
+};
+
+const handleEditProduct = async (product) => {
+  setTitle(product.title);
+  setImage(product.image);
+  setDescription(product.description);
+  setPrice(product.price);
+  setCountInStock(product.countInStock);
+  setProductId(product._id);
+};
+
+const handleUpdateProduct = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    const productData = { title, image, description, price, countInStock, productId, user: userInfo._id };
+    // Check for empty fields
+    if (!title || !image || !description || price === 0 || countInStock === 0) {
+      // Display an error message or set an error state
+      alert('Please fill in all the fields.');
+      return; // Stop the form submission
+    }
+    try {
+      await updateProduct(productData).unwrap();
+      toast.success('Product updated successfully');
+    } catch (err) {
+      toast.error('Error updating product: ' + err?.data?.message || err.error);
+    }
+};
+
   const handleDeleteUser = async (userId) => {
     console.log(userId);
     if (window.confirm('Are you sure you want to delete this user?')) {
@@ -74,15 +125,7 @@ const ProfileScreen = () => {
     }
   };
 
-  useEffect(() => {
-    setUsername(userInfo.username);
-    setFirstName(userInfo.firstName);
-    setLastName(userInfo.lastName);
-    setEmail(userInfo.email);
-    setRole(userInfo.role);
-    setIsAdmin(userInfo?.role === 'ADMIN'); // according to role or according to db?
-    setAdmin(userInfo.admin);
-  }, [userInfo]);
+
 
   const dispatch = useDispatch();
   const deleteHandler = async (id) => {
@@ -114,6 +157,16 @@ const ProfileScreen = () => {
       }
     }
   };
+
+  useEffect(() => {
+    setUsername(userInfo.username);
+    setFirstName(userInfo.firstName);
+    setLastName(userInfo.lastName);
+    setEmail(userInfo.email);
+    setRole(userInfo.role);
+    setIsAdmin(userInfo?.role === 'ADMIN'); // according to role or according to db?
+    setAdmin(userInfo.admin);
+  }, [userInfo]);
 
   return (
     <Row>
@@ -289,7 +342,7 @@ const ProfileScreen = () => {
                       <td>{product.price}</td>
                       <td>{product.CountInStock}</td>
                       <td>
-                        <LinkContainer to={`/products/${product._id}`}>
+                        <LinkContainer to={`/product/${product._id}`}>
                           <Button className='btn-sm' variant='dark'>
                             Details
                           </Button>
@@ -300,7 +353,14 @@ const ProfileScreen = () => {
                           onClick={() => handleDeleteProduct(product._id)}
                           disabled={isDeletingProduct}
                       >
-                          {isDeletingProduct ? 'Deleting...' : 'Delete Product'}
+                          {isDeletingProduct ? 'Deleting...' : 'Delete'}
+                        </Button>
+                        <Button
+                          variant='light'
+                          className='btn-sm'
+                          onClick={() => handleEditProduct(product)}
+                        >
+                          Edit
                         </Button>
                       </td>
                     </tr>
@@ -308,6 +368,64 @@ const ProfileScreen = () => {
                 </tbody>
               </Table>
             )}
+            
+            <h2>Create or Update Product</h2>
+            <Form onSubmit={handleCreateProduct}>
+              <Form.Group className='my-2' controlId='title'>
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Enter title'
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group className='my-2' controlId='price'>
+                <Form.Label>Price</Form.Label>
+                <Form.Control
+                  type='number'
+                  placeholder='Enter price'
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group className='my-2' controlId='image'>
+                <Form.Label>Image</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Enter image url'
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group className='my-2' controlId='description'>
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  type='text'
+                  placeholder='Enter description'
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+              <Form.Group className='my-2' controlId='countInStock'>
+                <Form.Label>Count In Stock</Form.Label>
+                <Form.Control
+                  type='number'
+                  placeholder='Enter countInStock'
+                  value={countInStock}
+                  onChange={(e) => setCountInStock(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+              <Button type='submit' variant='primary'>
+                Create Product
+              </Button>
+              {isCreatingProduct && <Loader />}
+              <Button type='submit' variant='primary' onClick={handleUpdateProduct}>
+                Update Product
+              </Button>
+              {isUpdatingProduct && <Loader />}
+            </Form>
+
         <h2> My Orders</h2>
         {isLoadingOrders ? (
           <Loader />
