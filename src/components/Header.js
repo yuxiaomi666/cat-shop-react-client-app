@@ -1,22 +1,21 @@
-import { Navbar, Nav, Container, NavDropdown, Badge } from 'react-bootstrap';
-import { FaShoppingCart, FaUser } from 'react-icons/fa';
-import { LinkContainer } from 'react-router-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useLogoutMutation } from '../slices/usersApiSlice';
-import { logout } from '../slices/authSlice';
-import SearchBox from './SearchBox';
-import logo from '../assets/logo.png';
-
+import { Navbar, Nav, Container, NavDropdown, Badge } from "react-bootstrap";
+import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { LinkContainer } from "react-router-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "../slices/usersApiSlice";
+import { logout } from "../slices/authSlice";
+import Search from "./CatAPISearch";
+import logo from "../assets/logo.png";
 
 const Header = () => {
-  const { cartItems } = useSelector((state) => state.cart);
+  //const { cartItems } = useSelector((state) => state.cart);   do not have cart
   const { userInfo } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [logoutApiCall] = useLogoutMutation();
+  const [logoutApiCall] = useLogoutMutation(); //this can be working
 
   const logoutHandler = async () => {
     try {
@@ -24,7 +23,7 @@ const Header = () => {
       dispatch(logout());
       // NOTE: here we need to reset cart state for when a user logs out so the next
       // user doesn't inherit the previous users cart and shipping
-      navigate('/login');
+      navigate("/login");
     } catch (err) {
       console.error(err);
     }
@@ -32,22 +31,31 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg='primary' variant='dark' expand='lg' collapseOnSelect>
+      <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <LinkContainer to='/'>
+          <LinkContainer to="/">
             <Navbar.Brand>
-              <img src={logo} alt='ProShop' />
-              ProShop
+              <img
+                src={logo}
+                alt="ProShop"
+                style={{ maxWidth: "70px", maxHeight: "70px" }}
+              />
             </Navbar.Brand>
           </LinkContainer>
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
-          <Navbar.Collapse id='basic-navbar-nav'>
-            <Nav className='ms-auto'>
-              <SearchBox />
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="ms-auto">
               {userInfo ? (
                 <>
-                  <NavDropdown title={userInfo.name} id='username'>
-                    <LinkContainer to='/profile'>
+                  <NavDropdown
+                    title={
+                      <>
+                        <FaUser /> {userInfo.username}
+                      </>
+                    }
+                    id="username"
+                  >
+                    <LinkContainer to="/profile">
                       <NavDropdown.Item>Profile</NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Item onClick={logoutHandler}>
@@ -56,7 +64,7 @@ const Header = () => {
                   </NavDropdown>
                 </>
               ) : (
-                <LinkContainer to='/login'>
+                <LinkContainer to="/login">
                   <Nav.Link>
                     <FaUser /> Sign In
                   </Nav.Link>
@@ -64,7 +72,7 @@ const Header = () => {
               )}
 
               {/* Admin Links */}
-              {userInfo && userInfo.isAdmin && (
+              {/* {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='Admin' id='adminmenu'>
                   <LinkContainer to='/admin/productlist'>
                     <NavDropdown.Item>Products</NavDropdown.Item>
@@ -76,7 +84,7 @@ const Header = () => {
                     <NavDropdown.Item>Users</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
-              )}
+              )} */}
             </Nav>
           </Navbar.Collapse>
         </Container>
