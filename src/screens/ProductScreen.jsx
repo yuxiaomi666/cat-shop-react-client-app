@@ -19,6 +19,7 @@ import Message from '../components/Message';
 import Meta from '../components/Meta';
 
 const ProductScreen = () => {
+  
   const { id: productId } = useParams();
 
   const dispatch = useDispatch();
@@ -33,7 +34,6 @@ const ProductScreen = () => {
     refetch,
     error,
   } = useGetProductDetailsQuery(productId);
-
   const { userInfo } = useSelector((state) => state.auth);
   const { data: reviews, isLoading: loadingReviews, error: reviewsError } = useGetReviewsByIdQuery(productId);
 
@@ -83,11 +83,13 @@ const ProductScreen = () => {
           {error?.data?.message || error.error}
         </Message>
       ) : (
+        
         <>
           <Meta title={product.title} description={product.description} />
           <Row>
             <Col md={4}>
-              <Image src={product.image} alt={product.title} fluid />
+              <Image src={`http://localhost:8888${product.image}`} alt={product.title} fluid />
+              
             </Col>
             <Col md={5}>
               <ListGroup variant='flush'>
