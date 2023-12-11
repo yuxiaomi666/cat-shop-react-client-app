@@ -58,6 +58,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
                 url: `${REVIEWS_URL}/${productId}`,
             }),
             keepUnusedDataFor: 5,
+            providesTags: ['Reviews'],
         }),
         // product screen uses this
         createReview: builder.mutation({
@@ -66,7 +67,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
-            invalidatesTags: ['Product'],
+            invalidatesTags: ['Reviews'],
         }),
         getTopProducts: builder.query({
             query: () => `${PRODUCTS_URL}/top`,
