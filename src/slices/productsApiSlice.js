@@ -37,6 +37,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Product'],
         }),
+        // product screen uses this
         uploadProductImage: builder.mutation({
             query: (data) => ({
                 url: `/api/upload`,
