@@ -45,6 +45,32 @@ const ProfileScreen = () => {
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
 
+const handleFileChange = async (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('File upload failed');
+      }
+
+      const data = await response.json();
+      setImage(data.image); // Update the image state
+      toast.success('Image uploaded successfully');
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      toast.error('Error uploading image');
+    }
+  }
+};
+
 
 
   const handleDeleteOrder = async (orderId) => {
@@ -391,10 +417,10 @@ const handleUpdateProduct = async (e) => {
               <Form.Group className='my-2' controlId='image'>
                 <Form.Label>Image</Form.Label>
                 <Form.Control
-                  type='text'
+                  type='file'
                   placeholder='Enter image url'
                   value={image}
-                  onChange={(e) => setImage(e.target.value)}
+                  onChange={handleFileChange}
                 ></Form.Control>
               </Form.Group>
               <Form.Group className='my-2' controlId='description'>

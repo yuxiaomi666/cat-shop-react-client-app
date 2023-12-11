@@ -11,7 +11,6 @@ import ProfileScreen from './screens/ProfileScreen';
 import OtherUserProfileScreen from './screens/OtherUserProfileScreen';
 import { Provider } from 'react-redux';
 import store from './store';
-import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -24,12 +23,11 @@ ReactDOM.createRoot(root).render(
       <Provider store={store}>
         <Router>
           <Routes>
-            <Route path="/" element={<HomeScreen />} />
+            <Route path="/" element={<LoginScreen />} />
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
             <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/profile/:id" element={<OtherUserProfileScreen />} />
-            <Route path='/search/:keyword' element={<HomeScreen />} />
             <Route path='/product/:id' element={<ProductScreen />} />
           </Routes>
         </Router>
