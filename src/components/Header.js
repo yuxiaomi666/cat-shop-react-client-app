@@ -50,7 +50,7 @@ const Header = () => {
                   <NavDropdown
                     title={
                       <>
-                        <FaUser /> {userInfo.username}
+                        <FaUser /> {userInfo.email}
                       </>
                     }
                     id="username"

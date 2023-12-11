@@ -25,10 +25,11 @@ import { toast } from "react-toastify";
 
 function Details() {
   const { catId } = useParams();
-  const [catTitle, setCatTitle] = useState("this is cute cat"); //this just to satisfy the schema requirement
+  const [catTitle, setCatTitle] = useState(""); //this just to satisfy the schema requirement
   const [cat, setCat] = useState(null);
   const { userInfo } = useSelector((state) => state.auth); //not sure what this do
   const [comment, setComment] = useState("");
+  
 
   const [createReviewCatAPI, { isLoading: loadingProductReview }] =
     useCreateReviewCatAPIMutation();
@@ -68,14 +69,13 @@ function Details() {
 
   return (
     <div>
-      <h1>Details {catId}</h1>
       {cat && (
         <Container>
           <Row className="justify-content-md-center">
             {/* Cat Details Column */}
             <Col md={5}>
               <Row className="justify-content-md-center">
-                <Col md={6}>
+                <Col md={8}>
                   <Card>
                     {cat.photos && cat.photos.length > 0 && (
                       <Card.Img
@@ -124,7 +124,7 @@ function Details() {
             {/* Comment Section Column */}
             <Col md={7}>
               {/* Comment section content goes here */}
-              <div>Comments section placeholder</div>
+          
               <Row className="review">
                 <Col md={6}>
                   <h2>Reviews</h2>
@@ -137,6 +137,16 @@ function Details() {
                       reviews.map((review) => (
                         <ListGroup.Item key={review._id}>
                           <strong>{review.comment}</strong>
+                          <div>
+                            {/* Display user's name */}
+                            <span>Reviewed by: </span>
+                            {/* Link to the user's profile */}
+                            {/* Adjust the path as per your routing setup */}
+                            <Link to={`/profile/`}>
+                             {userInfo.email}
+                             
+                            </Link>
+                          </div>
                         </ListGroup.Item>
                       ))
                     ) : (

@@ -64,6 +64,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     }),
 
     createReviewCatAPI: builder.mutation({
+      //added need to tell yaxin
       query: (data) => ({
         url: `${REVIEWS_URL}/catAPI`,
         method: "POST",
@@ -87,6 +88,20 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       keepUnusedDataFor: 5,
     }),
+
+    getProductsByKeyword: builder.query({
+      //this is created to enable search on shop database, it is used in CatAPISearch.js
+      query: (keyword) => `api/search/${keyword}`,
+      providesTags: ["Products"],
+    }),
+    
+    getReviewsByUserId: builder.query({
+      //added need to tell yaxin
+      query: (userId) => ({
+        url: `${PROFILE_URL}/${userId}/reviews`, // Changed from `api/users/${userId}/reviews`
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 });
 
@@ -98,7 +113,9 @@ export const {
   useUploadProductImageMutation,
   useDeleteProductMutation,
   useCreateReviewMutation,
-    useCreateReviewCatAPIMutation,
+  useCreateReviewCatAPIMutation,
   useGetMyProductsQuery,
   useGetReviewsByIdQuery,
+  useGetProductsByKeywordQuery,
+  useGetReviewsByUserIdQuery,
 } = productsApiSlice;

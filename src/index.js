@@ -17,6 +17,7 @@ import OtherUserProfileScreen from "./screens/OtherUserProfileScreen";
 import { Provider } from "react-redux";
 import store from "./store";
 import HomeScreen from "./screens/HomeScreen";
+import Header from "./components/Header";
 
 const root = document.getElementById("root");
 
@@ -24,6 +25,7 @@ ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <Provider store={store}>
       <Router>
+        <Header />
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home/*" element={<App />} />

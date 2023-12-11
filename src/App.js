@@ -11,15 +11,16 @@ import Search from "./components/CatAPISearch";
 const App = () => {
   return (
     <>
-      <Header />
 
-      <Routes>
-        <Route index element={<HomeScreen />} />
-        <Route path="search" element={<Search />} />
-        <Route path="search/:search" element={<Search />} />
-        <Route path="details/:catId" element={<Details />} />
-        {/* ... other routes ... */}
-      </Routes>
+      <Container>
+        <Routes>
+          <Route index element={<HomeScreen />} />
+          <Route path="search" element={<Search />} />
+          <Route path="search/:search" element={<Search />} />
+          <Route path="details/:catId" element={<Details />} />
+          {/* ... other routes ... */}
+        </Routes>
+      </Container>
     </>
   );
 };
