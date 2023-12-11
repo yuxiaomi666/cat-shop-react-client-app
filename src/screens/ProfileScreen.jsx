@@ -10,7 +10,7 @@ import Loader from '../components/Loader';
 import { useProfileMutation, useGetManagedUsersQuery, useDeleteUserMutation } from '../slices/usersApiSlice';
 import { useGetMyOrdersQuery, useDeleteOrderMutation } from '../slices/ordersApiSlice';
 import { setCredentials } from '../slices/authSlice';
-import { useGetMyProductsQuery, useDeleteProductMutation, useCreateProductMutation, useUpdateProductMutation } from "../slices/productsApiSlice";
+import { useGetMyProductsQuery, useDeleteProductMutation, useCreateProductMutation, useUpdateProductMutation, useUploadProductImageMutation } from "../slices/productsApiSlice";
 
 const ProfileScreen = () => {
   const [username, setUsername] = useState('');
@@ -37,6 +37,7 @@ const ProfileScreen = () => {
   const { data: products, isLoading: isLoadingProducts, error: productsError } = useGetMyProductsQuery(userInfo._id);
   const { data: managedUsers, isLoading: isLoadingManagedUsers, error: managedUsersError } = useGetManagedUsersQuery(userInfo._id);
 
+
   const [deleteOrder, { isLoading: isDeletingOrder }] = useDeleteOrderMutation();
   const [deleteProduct, { isLoading: isDeletingProduct }] = useDeleteProductMutation();
   const [createProduct, { isLoading: isCreatingProduct }] = useCreateProductMutation();
@@ -44,31 +45,18 @@ const ProfileScreen = () => {
   const [deleteUser, { isLoading: isDeletingUser }] = useDeleteUserMutation();
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
+  const [uploadProductImage, { isLoading: loadingUploadProductImage }] = useUploadProductImageMutation();
 
-const handleFileChange = async (e) => {
-  const file = e.target.files[0];
-  if (file) {
+const handleUploadFileChange = async (e) => {
     const formData = new FormData();
-    formData.append('image', file);
-
+    formData.append('image', e.target.files[0]);
     try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('File upload failed');
-      }
-
-      const data = await response.json();
-      setImage(data.image); // Update the image state
-      toast.success('Image uploaded successfully');
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      toast.error('Error uploading image');
+      const res = await uploadProductImage(formData).unwrap();
+      toast.success(res.message);
+      setImage(res.image);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
-  }
 };
 
 
@@ -101,7 +89,6 @@ const handleFileChange = async (e) => {
     // Check for empty fields
     if (!title || !image || !description || price === 0 || countInStock === 0) {
       alert('Please fill in all the fields.');
-      console.log('Please fill in all the fields.');
       return;
     }
     try {
@@ -139,7 +126,6 @@ const handleUpdateProduct = async (e) => {
 };
 
   const handleDeleteUser = async (userId) => {
-    console.log(userId);
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
         await deleteUser(userId).unwrap();
@@ -150,13 +136,10 @@ const handleUpdateProduct = async (e) => {
     }
   };
 
-
-
   const dispatch = useDispatch();
   const deleteHandler = async (id) => {
     // delete order
     // useDeleteOrderMutation
-
     };
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -418,9 +401,7 @@ const handleUpdateProduct = async (e) => {
                 <Form.Label>Image</Form.Label>
                 <Form.Control
                   type='file'
-                  placeholder='Enter image url'
-                  value={image}
-                  onChange={handleFileChange}
+                  onChange={handleUploadFileChange}
                 ></Form.Control>
               </Form.Group>
               <Form.Group className='my-2' controlId='description'>
