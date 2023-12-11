@@ -5,11 +5,12 @@ import { Table, Form, Button, Row, Col } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { useGetOtherUserProfileQuery } from '../slices/usersApiSlice';
+import { useGetOtherUserProfileQuery, useGetOtherUserReviewsQuery } from '../slices/usersApiSlice';
 
 const OtherUserProfileScreen = () => {
     const { id: userId } = useParams();
     const { data: user, isLoading, error } = useGetOtherUserProfileQuery(userId);
+const { data: reviews, isLoading: loadingReviews, error: reviewsError } = useGetOtherUserReviewsQuery(userId);
 
     if (isLoading) {
         return <Loader />; // Show loader while data is loading
@@ -58,29 +59,19 @@ const OtherUserProfileScreen = () => {
               <Table striped hover responsive className='table-sm'>
                 <thead>
                   <tr>
-                    <th>ID</th>
+                    <th>Review ID</th>
                     <th>Review</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {managedUsers.map((user) => (
-                    <tr key={user._id}>
-                      <td>{user._id}</td>
-                      <td>{user.username}</td>
-                      <td>{user.email}</td>
-                      <td>{user.role}</td>
-                      <td>{user.isAdmin ? 'Yes' : 'No'}</td>
+                  {reviews.map((review) => (
+                    <tr key={review._id}>
+                      <td>{review.product}</td>
                       <td>
-                        <LinkContainer to={`/profile/${user._id}`}>
-                          <Button className='btn-sm' variant='dark'
-                          >
-                            Details
-                          </Button>
-                        </LinkContainer>
-
+                        {review.comment}
                       </td>
                     </tr>
-                  ))} */}
+                  ))}
                 </tbody>
               </Table>
             {/* )} */}

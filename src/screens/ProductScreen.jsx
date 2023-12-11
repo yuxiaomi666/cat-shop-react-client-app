@@ -37,7 +37,7 @@ const ProductScreen = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const { data: reviews, isLoading: loadingReviews, error: reviewsError } = useGetReviewsByIdQuery(productId);
 
-  const [createReview, { isLoading: loadingProductReview }] = useCreateReviewMutation();
+  const [createReview, { isLoading: loadingCreatingReview }] = useCreateReviewMutation();
   const [createOrder, { isLoading: loadingProductOrder }] = useCreateOrderMutation();
 
   const submitReviewHandler = async (e) => {
@@ -170,7 +170,9 @@ const ProductScreen = () => {
               ) : reviews && reviews.length > 0 ? (
                 reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
-                    <strong>{review.productTitle}</strong>
+                    <Link to={`/profile/${userInfo._id}`}>
+                      <strong>User: {userInfo._id}</strong>
+                    </Link>
                     <p>{review.comment}</p>
                   </ListGroup.Item>
                 ))
@@ -181,7 +183,7 @@ const ProductScreen = () => {
                 <ListGroup.Item>
                   <h2>Write a Customer Review</h2>
 
-                  {loadingProductReview && <Loader />}
+                  {loadingCreatingReview && <Loader />}
 
                   {userInfo ? (
                     <Form onSubmit={submitReviewHandler}>
@@ -196,7 +198,7 @@ const ProductScreen = () => {
                         ></Form.Control>
                       </Form.Group>
                       <Button
-                        disabled={loadingProductReview}
+                        disabled={loadingCreatingReview}
                         type='submit'
                         variant='primary'
                       >

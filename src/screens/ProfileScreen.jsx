@@ -74,10 +74,9 @@ const ProfileScreen = () => {
     const productData = { title, image, description, price, countInStock, user: userInfo._id };
     // Check for empty fields
     if (!title || !image || !description || price === 0 || countInStock === 0) {
-      // Display an error message or set an error state
       alert('Please fill in all the fields.');
       console.log('Please fill in all the fields.');
-      return; // Stop the form submission
+      return;
     }
     try {
       await createProduct(productData).unwrap();

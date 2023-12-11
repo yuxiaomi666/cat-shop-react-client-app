@@ -77,6 +77,12 @@ export const userApiSlice = apiSlice.injectEndpoints({
             }),
             keepUnusedDataFor: 5,
         }),
+        getOtherUserReviews: builder.query({
+            query: (userId) => ({
+                url: `${PROFILE_URL}/${userId}/reviews`,
+            }),
+            keepUnusedDataFor: 5,
+        }),
     }),
 });
 // auto generated hooks by RTK(Redux Toolkit) Query from the endpoints object
@@ -91,4 +97,5 @@ export const {
     useGetUserDetailsQuery,
     useGetManagedUsersQuery,
     useGetOtherUserProfileQuery,
+    useGetOtherUserReviewsQuery,
 } = userApiSlice;
