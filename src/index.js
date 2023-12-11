@@ -16,8 +16,6 @@ import { HelmetProvider } from 'react-helmet-async';
 
 
 const root = document.getElementById('root');
-console.log('node env: ' + process.env.NODE_ENV);
-console.log('node env: ' + process.env.BASE_URL);
 
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
