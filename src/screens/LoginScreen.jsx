@@ -10,6 +10,8 @@ import { setCredentials } from '../slices/authSlice';
 import { toast } from 'react-toastify';
 
 const LoginScreen = () => {
+    console.log('node env: ' + process.env.NODE_ENV);
+    console.log('node env: ' + process.env.REACT_APP_BASE_URL);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 

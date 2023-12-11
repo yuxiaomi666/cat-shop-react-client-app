@@ -1,41 +1,38 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import "./assets/styles/bootstrap.custom.css";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-import OtherUserProfileScreen from "./screens/OtherUserProfileScreen";
-import { Provider } from "react-redux";
-import store from "./store";
-import HomeScreen from "./screens/HomeScreen";
-import Header from "./components/Header";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './assets/styles/bootstrap.custom.css';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import OtherUserProfileScreen from './screens/OtherUserProfileScreen';
+import { Provider } from 'react-redux';
+import store from './store';
+import TestHome from './screens/testHome';
+import { HelmetProvider } from 'react-helmet-async';
+
 
 const root = document.getElementById("root");
 
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home/*" element={<App />} />
-          <Route path="/login" element={<LoginScreen />} />
-          <Route path="/register" element={<RegisterScreen />} />
-          <Route path="/profile" element={<ProfileScreen />} />
-          <Route path="/profile/:id" element={<OtherUserProfileScreen />} />
-        </Routes>
-      </Router>
-    </Provider>
+    <HelmetProvider>
+      <Provider store={store}>
+        <Router>
+          <Routes>
+            {/* <Route path="/" element={<TestHome />} /> */}
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/register" element={<RegisterScreen />} />
+            <Route path="/profile" element={<ProfileScreen />} />
+            <Route path="/profile/:id" element={<OtherUserProfileScreen />} />
+            <Route path="/product/:id" element={<ProductScreen />} />
+          </Routes>
+        </Router>
+      </Provider>
+    </HelmetProvider>
   </React.StrictMode>
 );
 

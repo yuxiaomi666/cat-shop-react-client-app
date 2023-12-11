@@ -1,3 +1,5 @@
+import { PRODUCTS_URL, PROFILE_URL, REVIEWS_URL } from '../constants';
+import { apiSlice } from './apiSlice';
 // import { BASE_URL } from "../constants";
 import { PRODUCTS_URL, PROFILE_URL, REVIEWS_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
@@ -17,9 +19,10 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       keepUnusedDataFor: 5,
     }),
     createProduct: builder.mutation({
-      query: () => ({
+      query: (newProductData) => ({
         url: `${PRODUCTS_URL}`,
         method: "POST",
+        body: newProductData,
       }),
       invalidatesTags: ["Product"],
     }),
@@ -29,7 +32,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: ["Product"],
     }),
     uploadProductImage: builder.mutation({
       query: (data) => ({
@@ -46,21 +49,23 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Product"],
     }),
-    // createReview: builder.mutation({
-    //   query: (data) => ({
-    //     url: `${PRODUCTS_URL}/${data.productId}/reviews`,
-    //     method: "POST",
-    //     body: data,
-    //   }),
-    //   invalidatesTags: ["Product"],
-    // }),
+
+    getReviewsById: builder.query({
+      query: (productId) => ({
+        url: `${REVIEWS_URL}/${productId}`,
+      }),
+      keepUnusedDataFor: 5,
+      providesTags: ["Reviews"],
+    }),
+    // product screen uses this
+
     createReview: builder.mutation({
       query: (data) => ({
         url: `${REVIEWS_URL}`,
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: ["Reviews"],
     }),
 
     createReviewCatAPI: builder.mutation({
@@ -94,7 +99,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       query: (keyword) => `api/search/${keyword}`,
       providesTags: ["Products"],
     }),
-    
+
     getReviewsByUserId: builder.query({
       //added need to tell yaxin
       query: (userId) => ({
@@ -113,9 +118,9 @@ export const {
   useUploadProductImageMutation,
   useDeleteProductMutation,
   useCreateReviewMutation,
-  useCreateReviewCatAPIMutation,
-  useGetMyProductsQuery,
   useGetReviewsByIdQuery,
   useGetProductsByKeywordQuery,
   useGetReviewsByUserIdQuery,
+  useCreateReviewCatAPIMutation,
+  useGetMyProductsQuery,
 } = productsApiSlice;

@@ -3,6 +3,7 @@ import { ORDERS_URL, PAYPAL_URL, PROFILE_URL } from '../constants';
 
 export const orderApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
+        // product screen uses this
         createOrder: builder.mutation({
             query: (order) => ({
                 url: ORDERS_URL,
