@@ -348,7 +348,7 @@ const handleUpdateProduct = async (e) => {
                       <td>{product._id}</td>
                       <td>{product.title}</td>
                       <td>{product.price}</td>
-                      <td>{product.CountInStock}</td>
+                      <td>{product.countInStock}</td>
                       <td>
                         <LinkContainer to={`/product/${product._id}`}>
                           <Button className='btn-sm' variant='dark'>
