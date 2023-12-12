@@ -59,7 +59,7 @@ const handleUploadFileChange = async (e) => {
     }
 };
 
-
+console.log(userInfo);
 
   const handleDeleteOrder = async (orderId) => {
     if (window.confirm('Are you sure you want to delete this order?')) {
