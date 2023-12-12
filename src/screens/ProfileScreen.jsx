@@ -524,14 +524,7 @@ const handleUpdateProduct = async (e) => {
                         onClick={() => handleDeleteOrder(order._id)}
                         disabled={isDeletingOrder}
                     >
-                        {isDeletingOrder ? 'Deleting...' : 'Delete Order'}
-                    </Button>
-                    <Button
-                      className='btn-sm'
-                      variant='danger'
-                      onClick={() => deleteHandler(order._id)}
-                    >
-                       Delete
+                        {isDeletingOrder ? 'Deleting...' : 'Delete'}
                     </Button>
                   </td>
                 </tr>

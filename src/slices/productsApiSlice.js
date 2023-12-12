@@ -90,6 +90,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: `${REVIEWS_URL}/${productId}`,
       }),
       keepUnusedDataFor: 5,
+        providesTags: ["Reviews"],
     }),
 
     getProductsByKeyword: builder.query({

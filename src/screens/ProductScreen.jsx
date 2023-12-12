@@ -17,6 +17,7 @@ import { useCreateOrderMutation } from '../slices/ordersApiSlice';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Meta from '../components/Meta';
+import { BASE_URL } from '../constants';
 
 const ProductScreen = () => {
   
@@ -65,6 +66,7 @@ const ProductScreen = () => {
         };
         await createOrder(orderData);
         toast.success('Order placed successfully');
+        window.alert('Order placed successfully!');
       } catch (error) {
         toast.error('Error placing order');
       }
@@ -88,7 +90,7 @@ const ProductScreen = () => {
           <Meta title={product.title} description={product.description} />
           <Row>
             <Col md={4}>
-              <Image src={`http://localhost:8888${product.image}`} alt={product.title} fluid />
+              <Image src={`${BASE_URL}${product.image}`} alt={product.title} fluid />
               
             </Col>
             <Col md={5}>
