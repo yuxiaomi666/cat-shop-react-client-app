@@ -15,6 +15,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import ProductScreen from './screens/ProductScreen';
 import { Navigate } from 'react-router-dom';
 import Header from './components/Header';
+import { Container } from "react-bootstrap";
+import OrderScreen from './screens/OrderScreen';
 
 
 const root = document.getElementById("root");
@@ -25,15 +27,18 @@ ReactDOM.createRoot(root).render(
       <Provider store={store}>
         <Router>
           <Header />
-          <Routes>
-            <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/home/*" element={<App />} />
-            <Route path="/login" element={<LoginScreen />} />
-            <Route path="/register" element={<RegisterScreen />} />
-            <Route path="/profile" element={<ProfileScreen />} />
-            <Route path="/profile/:id" element={<OtherUserProfileScreen />} />
-            <Route path="/product/:id" element={<ProductScreen />} />
-          </Routes>
+          < Container >
+            <Routes>
+              <Route path="/" element={<Navigate to="/home" />} />
+              <Route path="/home/*" element={<App />} />
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="/register" element={<RegisterScreen />} />
+              <Route path="/profile" element={<ProfileScreen />} />
+              <Route path="/profile/:id" element={<OtherUserProfileScreen />} />
+              <Route path="/product/:id" element={<ProductScreen />} />
+              <Route path="/order/:id" element={<OrderScreen />} />
+            </Routes>
+          </Container>
         </Router>
       </Provider>
     </HelmetProvider>

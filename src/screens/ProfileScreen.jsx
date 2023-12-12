@@ -460,7 +460,6 @@ const handleUpdateProduct = async (e) => {
                   <td>{order.quantity}</td>
                   <td>{order.totalPrice}</td>
                   <td>
-                    {/* detail = product page, not order page */}
                     <LinkContainer to={`/order/${order._id}`}>
                       <Button className='btn-sm' variant='dark'>
                         Details
@@ -472,7 +471,7 @@ const handleUpdateProduct = async (e) => {
                         onClick={() => handleDeleteOrder(order._id)}
                         disabled={isDeletingOrder}
                     >
-                        {isDeletingOrder ? 'Deleting...' : 'Delete Order'}
+                        {isDeletingOrder ? 'Deleting...' : 'Delete'}
                     </Button>
                   </td>
                 </tr>
