@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 
 function Details() {
   const { catId } = useParams();
-  const [catTitle, setCatTitle] = useState(""); //this just to satisfy the schema requirement
+  const [catTitle, setCatTitle] = useState("Adopt-A-Cat"); //this just to satisfy the schema requirement
   const [cat, setCat] = useState(null);
   const { userInfo } = useSelector((state) => state.auth); //not sure what this do
   const [comment, setComment] = useState("");

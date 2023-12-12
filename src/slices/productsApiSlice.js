@@ -1,8 +1,6 @@
 import { PRODUCTS_URL, PROFILE_URL, REVIEWS_URL } from '../constants';
 import { apiSlice } from './apiSlice';
 // import { BASE_URL } from "../constants";
-import { PRODUCTS_URL, PROFILE_URL, REVIEWS_URL } from "../constants";
-import { apiSlice } from "./apiSlice";
 // export const fullProductsUrl = `${BASE_URL}${PRODUCTS_URL}`;
 
 export const productsApiSlice = apiSlice.injectEndpoints({
@@ -103,7 +101,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     getReviewsByUserId: builder.query({
       //added need to tell yaxin
       query: (userId) => ({
-        url: `${PROFILE_URL}/${userId}/reviews`, // Changed from `api/users/${userId}/reviews`
+        url: `${PROFILE_URL}/reviews`, // Changed from `api/users/${userId}/reviews`
       }),
       keepUnusedDataFor: 5,
     }),
