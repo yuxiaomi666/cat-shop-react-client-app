@@ -116,11 +116,13 @@ function Search() {
                       style={{ objectFit: "cover", height: "200px" }}
                     />
                     <div className="card-body">
-                      <h5 className="card-title">{product.title}</h5>
-                      <p className="card-text">{product.description}</p>
-                      <p className="card-text">
-                        <b>Price:</b> ${product.price}
-                      </p>
+                      <Link to={`/product/${product._id}`}>
+                        <h5 className="card-title">{product.title}</h5>
+                        <p className="card-text">{product.description}</p>
+                        <p className="card-text">
+                          <b>Price:</b> ${product.price}
+                        </p>
+                      </Link>
                     </div>
                   </div>
                 </div>
