@@ -56,6 +56,11 @@ const ProductScreen = () => {
   };
 
     const handlePlaceOrder = async() => {
+    // Check if the user's role is ADMIN
+    if (userInfo.role === 'ADMIN') {
+      window.alert('Admin users are not allowed to place orders.');
+      return;
+    }
     const confirm = window.confirm('Are you sure to place order?');
     if (confirm) {
       try {
@@ -64,9 +69,11 @@ const ProductScreen = () => {
           product: productId,
           quantity: qty,
         };
-        await createOrder(orderData);
+        const response = await createOrder(orderData);
+        const orderId = response.data._id; 
         toast.success('Order placed successfully');
         window.alert('Order placed successfully!');
+        navigate(`/order/${orderId}`);
       } catch (error) {
         toast.error('Error placing order');
       }
