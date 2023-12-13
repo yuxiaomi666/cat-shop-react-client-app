@@ -15,7 +15,7 @@ const RegisterScreen = () => {
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('x');
     const [lastName, setLastName] = useState('x');
-    const [role, setRole] = useState('');
+    const [role, setRole] = useState('BUYER');
     const [isAdmin, setAdmin] = useState(false);
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -77,7 +77,8 @@ const RegisterScreen = () => {
                 </Form.Group>
                 <Form.Group className='my-2' controlId='role'>
                     <Form.Label>Role</Form.Label>
-                    <Form.Control as="select" value={role} onChange={(e) => setRole(e.target.value)}>
+                    <Form.Control as="select" value={role} 
+                        onChange={(e) => setRole(e.target.value)}>
                         <option value="buyer">Buyer</option>
                         <option value="seller">Seller</option>
                     </Form.Control>

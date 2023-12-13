@@ -27,7 +27,7 @@ const HomeScreen = () => {
     <div className="container-fluid">
       {/* Row for Search Bar */}
       <div className="row">
-        <div className="col-12">
+        <div className="col-12 mt-3 mb-2">
           <Search />
         </div>
       </div>
@@ -44,10 +44,10 @@ const HomeScreen = () => {
         ) : (
           <Row>
             {/* Left Spacer Column */}
-            <Col lg={2}></Col>
+            <Col lg={1}></Col>
 
             {/* Middle Column with Product Cards */}
-            <Col lg={8}>
+            <Col lg={10}>
               <Row>
                 {data &&
                   data.map((product) => (
@@ -76,7 +76,7 @@ const HomeScreen = () => {
             </Col>
 
             {/* Right Spacer Column */}
-            <Col lg={2}></Col>
+            <Col lg={1}></Col>
           </Row>
         )}
       </div>
@@ -84,13 +84,13 @@ const HomeScreen = () => {
       {/* Row for User Reviews */}
       <div className="row">
         {/* Left Spacer Column */}
-        <Col lg={2}></Col>
+        <Col lg={1}></Col>
 
         {/* Middle Column with Product Cards */}
-        <Col lg={8}>
+        <Col lg={10}>
           <Review />
         </Col>
-        <Col lg={2}></Col>
+        <Col lg={1}></Col>
       </div>
     </div>
   );

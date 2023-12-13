@@ -19,7 +19,6 @@ const OrderScreen = () => {
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
-
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {

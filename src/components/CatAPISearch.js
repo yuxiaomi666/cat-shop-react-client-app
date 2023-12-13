@@ -3,6 +3,7 @@ import * as client from "./CatAPIClient";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import { useGetProductsByKeywordQuery } from "../slices/productsApiSlice";
+import { BASE_URL } from "../constants";
 
 function Search() {
   const { search } = useParams();
@@ -54,7 +55,7 @@ function Search() {
 
   return (
     <Container>
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-md-center mt-3 mb-3">
         <Col md={6}>
           <input
             type="text"
@@ -84,13 +85,13 @@ function Search() {
                     >
                       <div className="row">
                         {cat.photos && cat.photos.length > 0 ? (
-                          <div className="col-6">
+                          <div>
                             <img src={cat.photos[0].medium} alt={cat.name} />
                           </div>
                         ) : null}
 
-                        <div className="col-6">
-                          <p>
+                        <div className="mt-2">
+                          <p >
                             {cat.name} - {cat.breeds?.primary} - {cat.gender}
                           </p>
                           <p>ID: {cat.id}</p>
@@ -107,13 +108,13 @@ function Search() {
           {isSearchPage && products && (
             <div className="row">
               {products.map((product) => (
-                <div key={product._id} className="col-md-6 col-lg-4 mb-3">
+                <div key={product._id} className="col-md-3 col-lg-8 mb-3">
                   <div className="card h-100">
                     <img
-                      src={product.image}
+                      src={`${BASE_URL}${product.image}`}
                       className="card-img-top"
                       alt={product.title}
-                      style={{ objectFit: "cover", height: "200px" }}
+                      style={{ objectFit: "cover", height: "300px" }}
                     />
                     <div className="card-body">
                       <Link to={`/product/${product._id}`}>
