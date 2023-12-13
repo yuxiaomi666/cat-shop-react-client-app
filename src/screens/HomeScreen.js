@@ -13,6 +13,7 @@ import Search from "../components/CatAPISearch";
 import { Card } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import Review from "../components/Review";
+import { BASE_URL } from "../constants";
 
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams(); //old
@@ -21,7 +22,6 @@ const HomeScreen = () => {
   //for cat page api
   const [key, setKey] = useState("home");
   const { pathname } = useLocation();
-  
 
   return (
     <div className="container-fluid">
@@ -54,7 +54,10 @@ const HomeScreen = () => {
                     <Col key={product._id} sm={12} md={6} lg={4} xl={4}>
                       <Card className="my-3 p-3 rounded">
                         <Link to={`/product/${product._id}`}>
-                          <Card.Img src={product.image} variant="top" />
+                          <Card.Img
+                            src={`${BASE_URL}${product.image}`}
+                            variant="top"
+                          />
                         </Link>
 
                         <Card.Body>
