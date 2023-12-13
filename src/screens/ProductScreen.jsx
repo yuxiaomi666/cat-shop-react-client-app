@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useEffect } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -57,6 +57,10 @@ const ProductScreen = () => {
 
     const handlePlaceOrder = async() => {
     // Check if the user's role is ADMIN
+    if (!userInfo) {
+      navigate('/login');
+      return;
+    }
     if (userInfo.role === 'ADMIN') {
       window.alert('Admin users are not allowed to place orders.');
       return;
@@ -182,7 +186,7 @@ const ProductScreen = () => {
                 reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
                     <Link to={`/profile/${review.user}`}>
-                      <strong>Review By: {review.user}</strong>
+                      <strong>Review By: {review.userName} </strong>
                     </Link>
                     <p>{review.comment}</p>
                   </ListGroup.Item>

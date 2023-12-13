@@ -55,7 +55,7 @@ function Search() {
 
   return (
     <Container>
-      <Row className="justify-content-md-center mt-3 mb-3">
+      <Row className="justify-content-md-center mb-3">
         <Col md={6}>
           <input
             type="text"

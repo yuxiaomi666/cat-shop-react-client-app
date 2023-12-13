@@ -420,7 +420,7 @@ const handleUpdateProduct = async (e) => {
                   onChange={(e) => setCountInStock(e.target.value)}
                 ></Form.Control>
               </Form.Group>
-              <Button type='submit' variant='primary'>
+              <Button  className="me-2" type='submit' variant='primary'>
                 Create Product
               </Button>
               {isCreatingProduct && <Loader />}

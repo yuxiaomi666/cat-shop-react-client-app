@@ -10,19 +10,21 @@ import { useGetOtherUserProfileQuery, useGetOtherUserReviewsQuery } from '../sli
 const OtherUserProfileScreen = () => {
     const { id: userId } = useParams();
     const { data: user, isLoading, error } = useGetOtherUserProfileQuery(userId);
-const { data: reviews, isLoading: loadingReviews, error: reviewsError } = useGetOtherUserReviewsQuery(userId);
+    const { data: reviews, isLoading: loadingReviews, error: reviewsError } = useGetOtherUserReviewsQuery(userId);
 
-    if (isLoading) {
+    if (isLoading || loadingReviews) {
         return <Loader />; // Show loader while data is loading
     }
 
-    if (error) {
-        return <Message variant='danger'>{error}</Message>; // Show error message if there is an error
+    if (error || reviewsError) {
+        const err = error || reviewsError;
+        return <Message variant='danger'>{err}</Message>; // Show error message if there is an error
     }
 
     if (!user) {
         return <Message variant='info'>User not found</Message>; // Or some other placeholder content
     }
+    console.log(reviews);
 
     return (
  <Row>

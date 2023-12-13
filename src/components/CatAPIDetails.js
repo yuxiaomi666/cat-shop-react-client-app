@@ -143,7 +143,7 @@ function Details() {
                             {/* Link to the user's profile */}
                             {/* Adjust the path as per your routing setup */}
                             <Link to={`/profile/${review.user}`}>
-                              {review._id}
+                              {review.userName}
                              
                             </Link>
                           </div>

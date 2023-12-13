@@ -30,7 +30,7 @@ const Header = () => {
   };
 
   return (
-    <header>
+    <header className="mb-3">
       <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <LinkContainer to="/">
