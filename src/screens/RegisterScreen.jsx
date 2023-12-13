@@ -79,8 +79,8 @@ const RegisterScreen = () => {
                     <Form.Label>Role</Form.Label>
                     <Form.Control as="select" value={role} 
                         onChange={(e) => setRole(e.target.value)}>
-                        <option value="buyer">Buyer</option>
-                        <option value="seller">Seller</option>
+                        <option value="BUYER">Buyer</option>
+                        <option value="SELLER">Seller</option>
                     </Form.Control>
                 </Form.Group>
                 <Form.Group className='my-2' controlId='password'>

@@ -181,8 +181,8 @@ const ProductScreen = () => {
               ) : reviews && reviews.length > 0 ? (
                 reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
-                    <Link to={`/profile/${userInfo._id}`}>
-                      <strong>Review By: {userInfo.email}</strong>
+                    <Link to={`/profile/${review.user}`}>
+                      <strong>Review By: {review.user}</strong>
                     </Link>
                     <p>{review.comment}</p>
                   </ListGroup.Item>

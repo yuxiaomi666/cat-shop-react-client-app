@@ -49,12 +49,16 @@ const Review = () => {
                   <p>{review.comment}</p>
                   {/* Add more details as needed */}
                 </div>
-                <Link
-                  to={`/home/details/${review.product}`}
-                  className="btn btn-primary float-end"
-                >
-                  View Details
-                </Link>
+                {review.product && review.product.length === 24 && /^[0-9a-fA-F]{24}$/.test(review.product) ? (
+                  <Link to={`/product/${review.product}`} className="btn btn-primary float-end">
+                    View Details
+                  </Link>
+                ) : (
+
+                  <Link to={`/home/details/${review.product}`} className="btn btn-primary float-end">
+                    View Details
+                  </Link>
+                )}
               </div>
             ))
           )}

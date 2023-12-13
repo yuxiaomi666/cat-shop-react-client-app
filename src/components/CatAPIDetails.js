@@ -142,8 +142,8 @@ function Details() {
                             <span>Reviewed by: </span>
                             {/* Link to the user's profile */}
                             {/* Adjust the path as per your routing setup */}
-                            <Link to={`/profile/`}>
-                             {userInfo.email}
+                            <Link to={`/profile/${review.user}`}>
+                              {review._id}
                              
                             </Link>
                           </div>

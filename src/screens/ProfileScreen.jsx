@@ -85,7 +85,8 @@ console.log(userInfo);
 
   const handleCreateProduct = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-    const productData = { title, image, description, price, countInStock, user: userInfo._id };
+    const formattedPrice = parseFloat(price).toFixed(2);
+    const productData = { title, image, description, price: formattedPrice, countInStock, user: userInfo._id };
     // Check for empty fields
     if (!title || !image || !description || price === 0 || countInStock === 0) {
       alert('Please fill in all the fields.');
@@ -110,7 +111,8 @@ const handleEditProduct = async (product) => {
 
 const handleUpdateProduct = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
-    const productData = { title, image, description, price, countInStock, productId, user: userInfo._id };
+    const formattedPrice = parseFloat(price).toFixed(2);
+    const productData = { title, image, description, price: formattedPrice, countInStock, productId, user: userInfo._id };
     // Check for empty fields
     if (!title || !image || !description || price === 0 || countInStock === 0) {
       // Display an error message or set an error state
@@ -244,14 +246,10 @@ const handleUpdateProduct = async (e) => {
 
           <Form.Group className='my-2' controlId='role'>
             <Form.Label>Role</Form.Label>
-            <Form.Select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-            >
-                <option value='BUYER'>Buyer</option>
-                <option value='SELLER'>Seller</option>
-                <option value='ADMIN'>Admin</option>
-            </Form.Select>
+            <Form.Control
+              type='text'
+              value={role}
+            ></Form.Control>
           </Form.Group>
 
         <Form.Group className='my-2' controlId='admin'>
@@ -347,7 +345,7 @@ const handleUpdateProduct = async (e) => {
                     <tr key={product._id}>
                       <td>{product._id}</td>
                       <td>{product.title}</td>
-                      <td>{product.price}</td>
+                      <td>{parseFloat(product.price).toFixed(2)}</td>
                       <td>{product.countInStock}</td>
                       <td>
                         <LinkContainer to={`/product/${product._id}`}>
